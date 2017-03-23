@@ -1,0 +1,5 @@
+.idea/
+__pycache__/
+user_data.txt
+user_data.html
+*.pyc
