@@ -2,6 +2,7 @@
 
 
 class URLManager(object):
+    """URL 管理器"""
     def __init__(self):
         self.new_urls = set()
         self.crawled_urls = set()

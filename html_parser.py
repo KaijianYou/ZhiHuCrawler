@@ -11,6 +11,7 @@ user_profile_url = 'https://www.zhihu.com/people/'
 
 
 class HTMLParser(object):
+    """HTML 分析器"""
     def __init__(self):
         pass
 

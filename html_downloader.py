@@ -5,10 +5,15 @@ try:
 except ImportError as e:
     from HTMLParser import HTMLParser
     html = HTMLParser()
+try:
+    import cookielib
+except ImportError as e:
+    import http.cookiejar as bookielib
 
 import requests
 
 
+# 构造 Request headers
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Encoding': 'gzip, deflate, sdch, br',
@@ -27,20 +32,20 @@ timeout = 120
 
 
 class HTMLDownloader(object):
+    """HTML 下载器"""
     def __init__(self):
-        pass
+        self._session = requests.Session()
 
     def download(self, url):
         if url is None:
             return None
 
-        r = requests.get(url, headers=headers, timeout=timeout)
+        r = self._session.get(url, headers=headers, timeout=timeout)
         if r.status_code != 200:
             return None
 
         if r.encoding == 'ISO-8859-1':
-            encodings = requests.utils.get_encodings_from_content(
-                str(r.content))
+            encodings = requests.utils.get_encodings_from_content(str(r.content))
             if encodings:
                 r.encoding = encodings[0]
             else:

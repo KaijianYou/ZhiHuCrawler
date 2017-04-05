@@ -6,23 +6,24 @@ import codecs
 
 
 class Outputer(object):
+    """数据采集、输出"""
     def __init__(self):
-        self.datas = {}
+        self._datas = {}
 
     def collect_data(self, data):
         if data is None:
             return
-        self.datas.update(data)
+        self._datas.update(data)
 
     def output_html(self):
-        if self.datas:
+        if self._datas:
             with codecs.open('user_data.html', 'w', encoding='utf-8') as f:
                 f.write('<html>')
                 f.write('<head>')
                 f.write('<meta http-equiv="content-type" '
                         'content="text/html;charset=utf-8">')
                 f.write('<style type="text/css">')
-                # f.write('table { border-spacing: none; border-collapse: collapse; }')
+                f.write('table { border-spacing: none; border-collapse: collapse; }')
                 f.write('table td { border: 1px solid #dedede; }')
                 f.write('</style>')
                 f.write('</head>')
@@ -47,7 +48,7 @@ class Outputer(object):
                 f.write('<td>Asks</td>')
                 f.write('</thead>')
                 f.write('<tbody>')
-                for k, v in self.datas.items():
+                for k, v in self._datas.items():
                     f.write('<tr>')
                     f.write('<td>%s</td>' % k)
                     f.write('<td>%s</td>' % v['url'])
@@ -67,9 +68,9 @@ class Outputer(object):
             print('No data')
 
     def output_json(self):
-        if self.datas:
+        if self._datas:
             with codecs.open('user_data.txt', 'w', encoding='utf-8') as f:
-                json.dump(self.datas, f, indent=4, skipkeys=True, ensure_ascii=False)
+                json.dump(self._datas, f, indent=4, skipkeys=True, ensure_ascii=False)
             print('Write to json done.')
         else:
             print('No data')
