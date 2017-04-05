@@ -11,9 +11,9 @@ class CrawlerMain(object):
     """爬虫调度器"""
     def __init__(self):
         self._url_manager = url_manager.URLManager()  # URL 管理器
-        self._downloader = html_downloader.HTMLDownloader()  # 下载器
-        self._parser = html_parser.HTMLParser()  # 网页解析器
-        self._outputer = outputer.Outputer()  # 输出器
+        self._downloader = html_downloader.HTMLDownloader()  # HTML 下载器
+        self._parser = html_parser.HTMLParser()  # HTML 解析器
+        self._outputer = outputer.Outputer()  # 数据采集、输出器
         self._max_size = 1   # 爬取的最大用户数
 
     def crawl(self, root_url, max_size):
@@ -42,4 +42,4 @@ class CrawlerMain(object):
 if __name__ == '__main__':
     crawler = CrawlerMain()
     root_url = 'https://www.zhihu.com/people/tian-yu-bai/following'
-    crawler.crawl(root_url, 10000)
+    crawler.crawl(root_url, 10)

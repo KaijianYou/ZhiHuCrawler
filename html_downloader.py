@@ -6,41 +6,32 @@ except ImportError as e:
     from HTMLParser import HTMLParser
     html = HTMLParser()
 try:
-    import cookielib
+    import http.cookiejar as cookielib
 except ImportError as e:
-    import http.cookiejar as bookielib
+    import cookielib
 
 import requests
 
-
-# 构造 Request headers
-headers = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, sdch, br',
-    'Accept-Language': 'zh-CN,zh;q=0.8',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive',
-    'Cookies': '',
-    'Host': 'www.zhihu.com',
-    'Pragma': 'no-cache',
-    'Referer': 'https://www.zhihu.com/',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-}
-
-timeout = 120
+from zhihu_login import ZhiHuLogin
+from zhihu_login import headers
 
 
 class HTMLDownloader(object):
     """HTML 下载器"""
-    def __init__(self):
+    def __init__(self, timeout=60):
         self._session = requests.Session()
+        self._timeout = timeout
+        self._login = ZhiHuLogin()
+        if not self._login.is_login():
+            account = input('请输入用户名：')
+            password = input('请输入密码：')
+            self._login.login(account, password)
 
     def download(self, url):
         if url is None:
             return None
 
-        r = self._session.get(url, headers=headers, timeout=timeout)
+        r = self._session.get(url, headers=headers, timeout=self._timeout)
         if r.status_code != 200:
             return None
 

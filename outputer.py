@@ -16,6 +16,7 @@ class Outputer(object):
         self._datas.update(data)
 
     def output_html(self):
+        """以 HTML 格式写数据到文件"""
         if self._datas:
             with codecs.open('user_data.html', 'w', encoding='utf-8') as f:
                 f.write('<html>')
@@ -30,22 +31,25 @@ class Outputer(object):
                 f.write('<body>')
                 f.write('<table>')
                 f.write('<thead>')
-                # f.write('<td>用户名</td>')
-                # f.write('<td>域名</td>')
-                # f.write('<td>简介</td>')
-                # f.write('<td>头像 URL</td>')
-                # f.write('<td>关注者</td>')
-                # f.write('<td>关注了</td>')
-                # f.write('<td>回答数</td>')
-                # f.write('<td>提问数</td>')
-                f.write('<td>User Name</td>')
-                f.write('<td>URL</td>')
-                f.write('<td>Bio</td>')
-                f.write('<td>Avatar URL</td>')
-                f.write('<td>Followers</td>')
-                f.write('<td>Followings</td>')
-                f.write('<td>Answers</td>')
-                f.write('<td>Asks</td>')
+
+                f.write(u'<td>用户名</td>')
+                f.write(u'<td>域名</td>')
+                f.write(u'<td>简介</td>')
+                f.write(u'<td>头像 URL</td>')
+                f.write(u'<td>关注者</td>')
+                f.write(u'<td>关注了</td>')
+                f.write(u'<td>回答数</td>')
+                f.write(u'<td>提问数</td>')
+
+                # f.write('<td>User Name</td>')
+                # f.write('<td>URL</td>')
+                # f.write('<td>Bio</td>')
+                # f.write('<td>Avatar URL</td>')
+                # f.write('<td>Followers</td>')
+                # f.write('<td>Followings</td>')
+                # f.write('<td>Answers</td>')
+                # f.write('<td>Asks</td>')
+
                 f.write('</thead>')
                 f.write('<tbody>')
                 for k, v in self._datas.items():
@@ -68,6 +72,7 @@ class Outputer(object):
             print('No data')
 
     def output_json(self):
+        """以 json 格式写数据到文件"""
         if self._datas:
             with codecs.open('user_data.txt', 'w', encoding='utf-8') as f:
                 json.dump(self._datas, f, indent=4, skipkeys=True, ensure_ascii=False)
@@ -89,9 +94,9 @@ class Outputer(object):
             numbers.append(len([person for person in persons if scale[i] <=
                                 int(person["followers"]) < scale[i + 1]]))
 
-        print('range       ', scale)
-        print('user numbers', numbers)
-        print('percentage  ', [round(float(number) * 100 / sum(numbers), 2)
+        print('range        ', scale)
+        print('user numbers ', numbers)
+        print('percentage   ', [round(float(number) * 100 / sum(numbers), 2)
                                for number in numbers])
 
 
