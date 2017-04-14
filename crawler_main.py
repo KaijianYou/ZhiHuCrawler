@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 
-import url_manager
+from time import time
+
 import html_downloader
-import outputer
 import html_parser
+import outputer
+import url_manager
 
 
 class CrawlerMain(object):
@@ -42,4 +44,7 @@ class CrawlerMain(object):
 if __name__ == '__main__':
     crawler = CrawlerMain()
     root_url = 'https://www.zhihu.com/people/tian-yu-bai/following'
-    crawler.crawl(root_url, 10)
+    start_time = time()
+    crawler.crawl(root_url, 100)
+    end_time = time()
+    print(end_time - start_time)

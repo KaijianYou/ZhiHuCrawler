@@ -2,9 +2,9 @@
 
 
 import re
-from bs4 import BeautifulSoup
 
 from Person import Person
+from bs4 import BeautifulSoup
 
 
 user_profile_url = 'https://www.zhihu.com/people/'
