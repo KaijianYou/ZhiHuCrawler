@@ -6,7 +6,7 @@ import codecs
 
 
 class Outputer(object):
-    """数据采集、输出"""
+    """数据采集、分析、输出器"""
     def __init__(self):
         self._datas = {}
 

@@ -6,8 +6,7 @@ import re
 from Person import Person
 from bs4 import BeautifulSoup
 
-
-user_profile_url = 'https://www.zhihu.com/people/'
+from settings import user_url_prefix
 
 
 class HTMLParser(object):
@@ -25,7 +24,7 @@ class HTMLParser(object):
 
         next_urls = []
         for following in followings:
-            user_url = user_profile_url + following
+            user_url = user_url_prefix + following
             user_url += 'following' if user_url[-1] == '/' else '/following'
             next_urls.append(user_url)
         return next_urls
@@ -66,7 +65,7 @@ class HTMLParser(object):
         return data
 
     def parse(self, page_url, html_page):
-        if page_url is None or html_page is None:
+        if not page_url or not html_page:
             return None, None
         soup = BeautifulSoup(html_page, 'lxml', from_encoding='utf-8')
 

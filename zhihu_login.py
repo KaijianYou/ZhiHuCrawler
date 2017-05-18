@@ -8,6 +8,10 @@ try:
     import http.cookiejar as cookielib
 except:
     import cookielib
+try:
+    from urllib import urlencode
+except:
+    from urllib.parse import urlencode
 
 import requests
 try:
@@ -15,18 +19,7 @@ try:
 except:
     pass
 
-
-# 构造 Request 首部信息
-headers = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, sdch, br',
-    'Accept-Language': 'zh-CN,zh;q=0.8',
-    'Connection': 'keep-alive',
-    'Host': 'www.zhihu.com',
-    'Referer': 'https://www.zhihu.com/',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 '
-                  '(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-}
+from settings import *
 
 try:
     input = raw_input
@@ -38,6 +31,7 @@ class ZhiHuLogin(object):
     """知乎登录"""
     def __init__(self, timeout=60):
         self._session = requests.session()
+        self._session.headers.update(default_header)
         self._timeout = timeout
 
     def _load_cookies(self):
@@ -51,20 +45,24 @@ class ZhiHuLogin(object):
 
     def _get_xsrf(self):
         """获取动态变化的 _xsrf"""
-        url = 'https://www.zhihu.com'
-        r = self._session.get(url, headers=headers, timeout=self._timeout)
+        r = self._session.get(zhihu_url, timeout=self._timeout)
         if r.status_code != 200:
             return None
         page = r.text
         pattern = r'name="_xsrf" value="(.*?)"'
         _xsrf = re.findall(pattern, page)[0]
+        print(_xsrf)
         return _xsrf
 
-    def _get_captcha(self):
+    def _get_captcha_pic(self):
         """获取验证码图片"""
-        t = str(int(time.time() * 1000))
-        captcha_url = 'https://www.zhihu.com/captcha.gif?r=' + t + '&type=login'
-        r = self._session.get(captcha_url, headers=headers, timeout=self._timeout)
+        params = {
+            'r': str(int(time.time() * 1000)),
+            'type': 'login',
+            'lang': 'cn',
+        }
+        url = captcha_url + '?' + urlencode(params)
+        r = self._session.get(url, timeout=self._timeout)
         with open('captcha.jpg', 'wb') as f:
             f.write(r.content)
         # 使用 pillow 的 Image 打开图片
@@ -80,19 +78,19 @@ class ZhiHuLogin(object):
 
     def is_login(self):
         self._load_cookies()
-        url = 'https://www.zhihu.com/settings/profile'
-        r = self._session.get(url, headers=headers, allow_redirects=False)
+        url = user_setting_url
+        r = self._session.get(url, allow_redirects=False)
         return True if r.status_code == 200 else False
 
     def login(self, account, password):
         """提供账号和密码进行登录"""
         xsrf = self._get_xsrf()
-        headers['X-Xsrftoken'] = xsrf
-        headers['X-Reuqested-With'] = 'XMLHttpRequest'  # Ajax 请求
+        default_header['X-Xsrftoken'] = xsrf
+        default_header['X-Requested-With'] = 'XMLHttpRequest'  # Ajax 请求
 
         if re.match(r'^1\d{10}$', account):  # 账户名是手机号
             print('手机号登录')
-            login_url = 'https://www.zhihu.com/login/phone_num'
+            login_url = phonenum_login_url
             data = {
                 'password': password,
                 'phone_num': account,
@@ -100,7 +98,7 @@ class ZhiHuLogin(object):
             }
         elif '@' in account:  # 账户名是邮箱号
             print('邮箱登录')
-            login_url = 'https://www.zhihu.com/login/email'
+            login_url = email_login_url
             data = {
                 'email': account,
                 'password': password,
@@ -110,11 +108,11 @@ class ZhiHuLogin(object):
             print('账号有误，请重新登录')
             return
 
-        r = self._session.post(login_url, headers=headers, data=data, timeout=self._timeout)
+        r = self._session.post(login_url, data=data, timeout=self._timeout)
         # 直接登录失败，需要输入验证码才能登录
         if r.json()['r'] == 1:
-            data['captcha'] = self._get_captcha()
-            r = self._session.post(login_url, headers=headers, timeout=self._timeout)
+            data['captcha'] = self._get_captcha_pic()
+            r = self._session.post(login_url, timeout=self._timeout)
             print(r.json()['msg'])
 
         self._session.cookies.save()  # 保存 cookie 到文件

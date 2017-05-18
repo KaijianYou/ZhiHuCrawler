@@ -13,28 +13,31 @@ except ImportError as e:
 import requests
 
 from zhihu_login import ZhiHuLogin
-from zhihu_login import headers
+from settings import default_header
 
 
 class HTMLDownloader(object):
     """HTML 下载器"""
-    def __init__(self, timeout=60):
+    def __init__(self):
         self._session = requests.Session()
-        self._timeout = timeout
+        self._session.headers.update(default_header)
+        self._session.adapters.DEFAULT_RETRIES = 5  # 请求重发最大次数限制
+        # 登录知乎，获取 Cookie
         self._login = ZhiHuLogin()
         if not self._login.is_login():
             account = input('请输入用户名：')
             password = input('请输入密码：')
             self._login.login(account, password)
 
-    def download(self, url):
+    def download(self, url, timeout=60):
         if url is None:
             return None
 
-        r = self._session.get(url, headers=headers, timeout=self._timeout)
+        r = self._session.get(url, timeout=timeout)
         if r.status_code != 200:
             return None
 
+        # 获取正确的页面编码
         if r.encoding == 'ISO-8859-1':
             encodings = requests.utils.get_encodings_from_content(str(r.content))
             if encodings:

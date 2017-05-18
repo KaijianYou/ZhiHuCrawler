@@ -16,11 +16,10 @@ python 2.7 和 Python 3（优先）
 * BeautifulSoup 4
 * Requests
 * Pillow
+* lxml
 
 ### 安装依赖库
-    pip install beautifulsoup
-    pip install requests
-    pip install pillow
+    pip install -r requirements.txt
 
 # 运行
 首先你需要有个可以登录的知乎账号。
