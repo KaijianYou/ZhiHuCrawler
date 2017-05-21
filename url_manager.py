@@ -1,11 +1,35 @@
 # -*- coding: utf-8 -*-
 
 
+from threading import Lock
+
+
+class LockedSet(set):
+    """A set where add(), remove(), and 'in' operator are thread-safe"""
+    def __init__(self, *args, **kwargs):
+        self._lock = Lock()
+        super(LockedSet, self).__init__(*args, **kwargs)
+
+    def add(self, item):
+        with self._lock:
+            super(LockedSet, self).add(item)
+
+    def remove(self, item):
+        with self._lock:
+            super(LockedSet, self).remove(item)
+
+    def __contains__(self, item):
+        with self._lock:
+            super(LockedSet, self).__contains__(item)
+
+
 class URLManager(object):
     """URL 管理器"""
     def __init__(self):
-        self.new_urls = set()
-        self.crawled_urls = set()
+        # self.new_urls = set()
+        # self.crawled_urls = set()
+        self.new_urls = LockedSet()
+        self.crawled_urls = LockedSet()
 
     def add_url(self, url):
         if url is None:

@@ -9,6 +9,7 @@ try:
     import http.cookiejar as cookielib
 except ImportError as e:
     import cookielib
+from multiprocessing.pool import ThreadPool
 
 import requests
 
@@ -22,12 +23,17 @@ class HTMLDownloader(object):
         self._session = requests.Session()
         self._session.headers.update(default_header)
         self._session.adapters.DEFAULT_RETRIES = 5  # 请求重发最大次数限制
+        self._pool = ThreadPool(processes=100)
         # 登录知乎，获取 Cookie
-        self._login = ZhiHuLogin()
-        if not self._login.is_login():
-            account = input('请输入用户名：')
-            password = input('请输入密码：')
-            self._login.login(account, password)
+        # self._login = ZhiHuLogin()
+        # if not self._login.is_login():
+        #     account = input('请输入用户名：')
+        #     password = input('请输入密码：')
+        #     self._login.login(account, password)
+
+    def multithread_download(self, url, timeout=60):
+        async_result = self._pool.apply_async(self.download, (url, timeout))
+        return async_result.get()
 
     def download(self, url, timeout=60):
         """下载网页"""

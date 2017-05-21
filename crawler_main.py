@@ -24,7 +24,7 @@ class CrawlerMain(object):
         try:
             while self._url_manager.has_next():
                 next_url = self._url_manager.get_next()
-                html_page = self._downloader.download(next_url)
+                html_page = self._downloader.multithread_download(next_url)
                 logger.info('crawl {0}: {1}'.format(count, next_url))
                 next_urls, data = self._parser.parse(next_url, html_page)
                 self._url_manager.add_urls(next_urls)
@@ -45,6 +45,6 @@ if __name__ == '__main__':
     crawler = CrawlerMain()
     root_url = user_url_prefix + '/tian-yu-bai/following'
     start_time = time()
-    crawler.crawl(root_url, 100)
+    crawler.crawl(root_url, 50)
     end_time = time()
     print(end_time - start_time)
