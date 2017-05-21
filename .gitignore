@@ -6,3 +6,4 @@ user_data.html
 *.pyc
 zhihu_cookies
 captcha.jpg
+crawl.log

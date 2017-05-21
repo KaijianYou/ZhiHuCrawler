@@ -7,10 +7,10 @@
 * html_downloader html 下载器
 * html_parser html 网页解析器
 * outputer 数据采集、输出器
-* zhihu_login  知乎登录
+* zhihu_login  登录知乎
 
 # 运行环境
-python 2.7 和 Python 3（优先）
+python 2.7 和 Python 3.5
 
 # 依赖库
 * BeautifulSoup 4

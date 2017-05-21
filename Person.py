@@ -28,9 +28,5 @@ class Person(object):
                     answers=self.answers)
 
 
-def main():
-    pass
-
-
 if __name__ == '__main__':
-    main()
+    pass

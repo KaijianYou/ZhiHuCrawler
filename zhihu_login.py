@@ -4,6 +4,7 @@
 import re
 import os.path
 import time
+import json
 try:
     import http.cookiejar as cookielib
 except:
@@ -20,6 +21,7 @@ except:
     pass
 
 from settings import *
+
 
 try:
     input = raw_input
@@ -51,7 +53,6 @@ class ZhiHuLogin(object):
         page = r.text
         pattern = r'name="_xsrf" value="(.*?)"'
         _xsrf = re.findall(pattern, page)[0]
-        print(_xsrf)
         return _xsrf
 
     def _get_captcha_pic(self):
@@ -71,15 +72,14 @@ class ZhiHuLogin(object):
             img.show()
             img.close()
         except Exception as e:
-            print('请手动打开 "{0}" 并输入图片中的验证码'
+            print('请手动打开 "{0}" 并输入图片中倒立的文字'
                   .format(os.path.abspath('captcha.jpg')))
-        captcha = input('请输入图片中的验证码：')
+        captcha = input('请输入图片中倒立的文字：')
         return captcha
 
     def is_login(self):
         self._load_cookies()
-        url = user_setting_url
-        r = self._session.get(url, allow_redirects=False)
+        r = self._session.get(user_setting_url, allow_redirects=False)
         return True if r.status_code == 200 else False
 
     def login(self, account, password):
@@ -94,7 +94,7 @@ class ZhiHuLogin(object):
             data = {
                 'password': password,
                 'phone_num': account,
-                '_xsrf': xsrf
+                '_xsrf': xsrf,
             }
         elif '@' in account:  # 账户名是邮箱号
             print('邮箱登录')
@@ -102,7 +102,7 @@ class ZhiHuLogin(object):
             data = {
                 'email': account,
                 'password': password,
-                '_xsrf': xsrf
+                '_xsrf': xsrf,
             }
         else:
             print('账号有误，请重新登录')
@@ -118,7 +118,7 @@ class ZhiHuLogin(object):
         self._session.cookies.save()  # 保存 cookie 到文件
 
 
-def main():
+if __name__ == '__main__':
     zhl = ZhiHuLogin()
     if zhl.is_login():
         print('已经登录')
@@ -126,7 +126,3 @@ def main():
         account = input('请输入用户名：')
         password = input('请输入密码：')
         zhl.login(account, password)
-
-
-if __name__ == '__main__':
-    main()

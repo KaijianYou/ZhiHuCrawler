@@ -24,7 +24,7 @@ class HTMLParser(object):
 
         next_urls = []
         for following in followings:
-            user_url = user_url_prefix + following
+            user_url = user_url_prefix + '/' + following
             user_url += 'following' if user_url[-1] == '/' else '/following'
             next_urls.append(user_url)
         return next_urls

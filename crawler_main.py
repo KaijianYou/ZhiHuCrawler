@@ -7,7 +7,7 @@ import html_downloader
 import html_parser
 import outputer
 import url_manager
-from settings import user_url_prefix
+from settings import *
 
 
 class CrawlerMain(object):
@@ -25,7 +25,7 @@ class CrawlerMain(object):
             while self._url_manager.has_next():
                 next_url = self._url_manager.get_next()
                 html_page = self._downloader.download(next_url)
-                print('crawl {0}: {1}'.format(count, next_url))
+                logger.info('crawl {0}: {1}'.format(count, next_url))
                 next_urls, data = self._parser.parse(next_url, html_page)
                 self._url_manager.add_urls(next_urls)
                 self._outputer.collect_data(data)
@@ -34,7 +34,7 @@ class CrawlerMain(object):
                 if count > max_size:
                     break
         except Exception as e:
-            print('Crawl failed\nError: {error}'.format(error=e))
+            logger.error('Crawl failed\nError: {error}'.format(error=e))
         finally:
             self._outputer.output_html()
             self._outputer.output_json()

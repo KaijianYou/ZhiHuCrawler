@@ -4,6 +4,8 @@
 import json
 import codecs
 
+from settings import logger
+
 
 class Outputer(object):
     """数据采集、分析、输出器"""
@@ -67,18 +69,18 @@ class Outputer(object):
                 f.write('</table>')
                 f.write('</body>')
                 f.write('</html>')
-            print('Write to html done.')
+            logger.info('Outputer.output_html(): Write to html done.')
         else:
-            print('No data')
+            logger.info('Outputer.output_html(): No data.')
 
     def output_json(self):
         """以 json 格式写数据到文件"""
         if self._datas:
             with codecs.open('user_data.txt', 'w', encoding='utf-8') as f:
                 json.dump(self._datas, f, indent=4, skipkeys=True, ensure_ascii=False)
-            print('Write to json done.')
+            logger.info('Outputer.output_json(): Write to json done.')
         else:
-            print('No data')
+            logger.info('Outputer.output_json(): No data.')
 
     def data_profiler(self):
         """数据分析"""
@@ -94,9 +96,9 @@ class Outputer(object):
             numbers.append(len([person for person in persons if scale[i] <=
                                 int(person["followers"]) < scale[i + 1]]))
 
-        print('range        ', scale)
-        print('user numbers ', numbers)
-        print('percentage   ', [round(float(number) * 100 / sum(numbers), 2)
+        print('Range        ', scale)
+        print('User Numbers ', numbers)
+        print('Percentage   ', [str(round(float(number) * 100 / sum(numbers), 2)) + '%'
                                for number in numbers])
 
 
