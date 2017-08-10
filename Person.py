@@ -4,14 +4,6 @@
 class Person(object):
     def __init__(self, name, url, avatar, bio, followings, followers, asks, answers):
         self.__dict__.update({k: v for k, v in locals().items() if k != 'self'})
-        # self.name = name,
-        # self.url = url,
-        # self.avatar = avatar,
-        # self.bio = bio,
-        # self.followings = followings,
-        # self.followers = followers,
-        # self.asks = asks,
-        # self.answers = answers
 
     def to_dict(self):
         for k, v in locals().items():

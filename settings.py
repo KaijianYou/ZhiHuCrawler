@@ -10,8 +10,8 @@ default_header = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Host': 'www.zhihu.com',
     'Referer': 'https://www.zhihu.com/',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 '
-                  '(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+    'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 '
+                   '(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
 }
 
 zhihu_url = 'https://www.zhihu.com'
