@@ -9,8 +9,10 @@
 * outputer 数据采集、输出器
 * zhihu_login  登录知乎
 
+
 # 运行环境
 python 2.7 和 Python 3.5
+
 
 # 依赖库
 * BeautifulSoup 4
@@ -20,6 +22,7 @@ python 2.7 和 Python 3.5
 
 ### 安装依赖库
     pip install -r requirements.txt
+
 
 # 运行
 首先你需要有个可以登录的知乎账号。
@@ -41,6 +44,7 @@ python 2.7 和 Python 3.5
 
 * 若自动获取 Cookie 失败，可试试手动获取 Cookie 的方法。
 * 若页面解析错误，可能是知乎页面被修改了，这时需要根据实际情况改写网页解析器中的爬取规则。
+
 
 # 参考
 1. [Python开发简单爬虫](http://www.imooc.com/learn/563)<br/>
