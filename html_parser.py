@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 import re
 
 from Person import Person
@@ -76,6 +73,3 @@ class HTMLParser(object):
         next_urls = self._get_next_urls(html_page)
         return next_urls, data
 
-
-if __name__ == '__main__':
-    pass

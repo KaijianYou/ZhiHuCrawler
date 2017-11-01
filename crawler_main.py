@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from time import time
 
 import html_downloader

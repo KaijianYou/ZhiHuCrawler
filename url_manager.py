@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from threading import Lock
 
 
@@ -49,6 +46,3 @@ class URLManager(object):
         self.crawled_urls.add(url)
         return url
 
-
-if __name__ == '__main__':
-    pass

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 import json
 import codecs
 
@@ -88,8 +85,7 @@ class Outputer(object):
             data = json.load(f)
 
         persons = data.values()
-        scale = [0, 10, 50, 100, 200, 500, 1000, 3000, 5000,
-                 10000, 100000, 1000000, 10000000]
+        scale = [0, 10, 50, 100, 200, 500, 1000, 3000, 5000, 10000, 100000, 1000000, 10000000]
 
         numbers = []
         for i in range(len(scale) - 1):
@@ -100,8 +96,4 @@ class Outputer(object):
         print('User Numbers ', numbers)
         print('Percentage   ', [str(round(float(number) * 100 / sum(numbers), 2)) + '%'
                                for number in numbers])
-
-
-if __name__ == '__main__':
-    pass
 

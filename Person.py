@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 class Person(object):
     def __init__(self, name, url, avatar, bio, followings, followers, asks, answers):
         self.__dict__.update({k: v for k, v in locals().items() if k != 'self'})
@@ -19,6 +16,3 @@ class Person(object):
                     asks=self.asks,
                     answers=self.answers)
 
-
-if __name__ == '__main__':
-    pass

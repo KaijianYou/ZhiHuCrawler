@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-
-
 import re
 import os.path
 import time
-import json
 try:
     import http.cookiejar as cookielib
 except:

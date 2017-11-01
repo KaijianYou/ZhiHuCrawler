@@ -11,7 +11,7 @@
 
 
 # 运行环境
-python 2.7 和 Python 3.5
+Python 3.5
 
 
 # 依赖库

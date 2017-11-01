@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 try:
     import html
 except ImportError as e:
@@ -90,6 +88,3 @@ class HTMLDownloader(object):
         del self._session.orig_get
         del self._session.orig_post
 
-
-if __name__ == '__main__':
-    pass
