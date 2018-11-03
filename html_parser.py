@@ -40,11 +40,9 @@ class HTMLParser(object):
         followship_tags = soup.select('div.FollowshipCard-counts > a')
         for followship_tag in followship_tags:
             if followship_tag.select('div.NumberBoard-name')[0].text == u'关注了':
-                following_num = followship_tag \
-                    .find('div', class_='NumberBoard-value').text
+                following_num = followship_tag.find('div', class_='NumberBoard-value').text
             if followship_tag.select('div.NumberBoard-name')[0].text == u'关注者':
-                follower_num = followship_tag \
-                    .find('div', class_='NumberBoard-value').text
+                follower_num = followship_tag.find('div', class_='NumberBoard-value').text
 
         ask_num, answer_num = '', ''
         profile_tags = soup.select('div.ProfileMain-header > ul > li')
